@@ -7,31 +7,36 @@
     <div class="todo_box-container" *ngFor="let todo of todos">
       <div class="todo_box-action" [ngClass]="todo.isShowDetail ? 'is-show-detail': ''">
         <div class="todo_box-name">
-          <input type="checkbox" id="todoName_{{todo.id}}" name="todoName_{{todo.id}}" [checked]="todo.isChecked">
+          <input type="checkbox"
+                 id="todoName_{{todo.id}}"
+                 name="todoName_{{todo.id}}"
+                 [(ngModel)]="todo.isChecked">
           <label for="todoName_{{todo.id}}">{{todo.name}}</label>
         </div>
         <div class="todo_box-handle">
-          <button class="box_handle-detail" type="button" (click)="todo.isShowDetail = !todo.isShowDetail">
+          <button class="box_handle-detail" type="button" (click)="onShowDetail(todo)">
             Detail
           </button>
-          <button class="box_handle-remove" type="button">
+          <button class="box_handle-remove" type="button" (click)="onRemove(todo)">
             Remove
           </button>
         </div>
       </div>
       <div class="todo_box-detail" *ngIf="todo.isShowDetail">
-        <todo-detail [todo]="todo"></todo-detail>
+        <todo-detail [todo]="todo" [box-type]="TodoBox.UPDATE"></todo-detail>
       </div>
     </div>
   </div>
 
-  <div class="todo_list-bulk-action">
+  <div class="todo_list-bulk-action" *ngIf="canShowRemoveAll()">
     <span class="bulk-label">Bulk Action:</span>
     <div class="bulk-action">
       <button class="bulk_action-done" type="button">
         Done
       </button>
-      <button class="bulk_action-remove" type="button">
+      <button class="bulk_action-remove"
+              type="button"
+              (click)="onRemoveAll()">
         Remove
       </button>
     </div>

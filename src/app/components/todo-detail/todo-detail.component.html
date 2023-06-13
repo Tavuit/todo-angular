@@ -1,7 +1,9 @@
 <div class="detail_wrapper">
   <form [formGroup]="todoForm">
     <div class="detail_task-name">
-      <input formControlName="name" name="name" id="name" type="text" placeholder="Add new task ...">
+      <input formControlName="name" name="name" id="name" type="text" [ngClass]="isControlError('name')"
+             placeholder="Add new task ...">
+      <small *ngIf="hasError('name', 'required')" class="p-error">Task name is required!.</small>
     </div>
     <div class="detail_task-description">
       <label for="description">Description</label>
@@ -10,7 +12,7 @@
     <div class="detail_task-options">
       <div class="task_option-due-date">
         <label for="dueDate">Due Date</label>
-        <input formControlName="dueDate" type="date" name="dueDate" id="dueDate">
+        <input formControlName="dueDate" type="date" name="dueDate" id="dueDate" min="{{minDate | date:'yyyy-MM-dd'}}">
       </div>
       <div class="task_option-priority">
         <label for="priority">Priority</label>
@@ -19,8 +21,12 @@
         </select>
       </div>
     </div>
-    <button class="form-action" type="button">
-      ADD
+    <button class="form-action"
+            type="button"
+            [ngClass]="todoForm.invalid ? 'btn-disable': ''"
+            [disabled]="todoForm.invalid"
+            (click)="submit()">
+      {{boxType === TodoBox.CREATE ? 'ADD' : 'UPDATE'}}
     </button>
   </form>
 </div>

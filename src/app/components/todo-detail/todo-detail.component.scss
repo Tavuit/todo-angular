@@ -20,6 +20,23 @@
         //box-shadow: 0px 0px 50px -5px #40C7FF;
       }
     }
+
+    .invalid {
+      border: 2px solid #e70707;
+      animation: invalid 0.2s 2;
+    }
+
+    @keyframes invalid {
+      25% {
+        translate: 6px 0;
+      }
+      50% {
+        translate: -6px 0;
+      }
+      25% {
+        translate: 6px 0;
+      }
+    }
   }
 
   .detail_task-description {
@@ -94,6 +111,7 @@
       }
     }
   }
+
   .form-action {
     margin-top: 32px;
 

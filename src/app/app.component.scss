@@ -21,3 +21,16 @@
     }
   }
 }
+
+::ng-deep.p-error {
+  color: #fa4d4d;
+}
+
+
+::ng-deep .btn-disable {
+  opacity: 0.7;
+
+  &:active {
+    transform: unset !important;
+  }
+}

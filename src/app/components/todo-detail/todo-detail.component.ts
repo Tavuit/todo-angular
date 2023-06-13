@@ -1,8 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Subject} from "rxjs";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Todo} from "../../Domain/Interface/Todo.interface";
 import {formatDate} from '@angular/common';
+import {TodoBox} from "../../utils/enums/todo-box.enum";
 
 @Component({
   selector: 'todo-detail',
@@ -11,7 +12,7 @@ import {formatDate} from '@angular/common';
 })
 export class TodoDetailComponent implements OnInit {
   private $destroyed: Subject<void> = new Subject<void>();
-
+  public minDate: Date = new Date();
   public priorities: { label: string, value: string }[] = [{
     label: "High", value: "high"
   }, {
@@ -26,6 +27,8 @@ export class TodoDetailComponent implements OnInit {
     dueDate: new Date(),
     priority: "normal"
   }
+  public TodoBox = TodoBox
+  @Input('box-type') boxType: TodoBox = TodoBox.CREATE
 
   @Input()
   set todo(todo: Todo) {
@@ -36,18 +39,43 @@ export class TodoDetailComponent implements OnInit {
     return this._todo
   }
 
-  @Output() submit: EventEmitter<Todo> = new EventEmitter<Todo>();
+  @Output() todoChange: EventEmitter<Todo> = new EventEmitter<Todo>();
 
-  constructor() {
-    this.todoForm = new FormGroup<any>({
-      name: new FormControl(this._todo.name, [Validators.required]),
-      description: new FormControl(this._todo.description, []),
-      dueDate: new FormControl(formatDate(this._todo.dueDate, 'yyyy-MM-dd', 'en'), []),
-      priority: new FormControl(this._todo.priority, [])
+  constructor(
+    private fbuilder: FormBuilder
+  ) {
+    this.todoForm = this.fbuilder.group({
+      name: new FormControl("", [Validators.required]),
+      description: new FormControl("", []),
+      dueDate: new FormControl("", []),
+      priority: new FormControl("", [])
     })
   }
 
   ngOnInit(): void {
+    this.updateFormValue()
   }
 
+  updateFormValue(): void {
+    this.todoForm.controls['name'].patchValue(this._todo.name)
+    this.todoForm.controls['description'].patchValue(this._todo.description)
+    this.todoForm.controls['dueDate'].patchValue(formatDate(this._todo.dueDate, 'yyyy-MM-dd', 'en'))
+    this.todoForm.controls['priority'].patchValue(this._todo.priority)
+  }
+
+  hasError(controlName: string, type: string): boolean {
+    switch (type) {
+      case 'required': {
+        return this.todoForm.controls[controlName].dirty && this.todoForm.controls[controlName].hasError('required')
+      }
+    }
+  }
+
+  isControlError(controlName: string): string {
+    return this.todoForm.controls[controlName].dirty && this.todoForm.controls[controlName].invalid ? 'invalid' : ''
+  }
+
+  submit(): void {
+    this.todoChange.emit(this.todoForm.getRawValue())
+  }
 }
