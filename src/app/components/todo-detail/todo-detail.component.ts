@@ -82,5 +82,9 @@ export class TodoDetailComponent implements OnInit {
       return
     }
     this.todoChange.emit(this.todoForm.getRawValue())
+
+    if (this.boxType === TodoBox.CREATE) {
+      this.todoForm.reset({dueDate: formatDate(this._todo.dueDate, 'yyyy-MM-dd', 'en'), priority: 'normal'})
+    }
   }
 }
