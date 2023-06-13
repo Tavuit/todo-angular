@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {TodoListComponent} from "./todo-list.component";
 import {FormsModule} from "@angular/forms";
+import {TodoDetailModule} from "../../components/todo-detail/todo-detail.module";
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import {FormsModule} from "@angular/forms";
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    TodoDetailModule
   ]
 })
 export class TodoListModule {

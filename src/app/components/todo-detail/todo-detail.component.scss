@@ -94,4 +94,24 @@
       }
     }
   }
+  .form-action {
+    margin-top: 32px;
+
+    border: none !important;
+    border-radius: 4px;
+    padding: 12px;
+    color: #FFFFFF;
+    width: 10em;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &:active {
+      transform: scale(0.99);
+    }
+
+    width: 100%;
+    background-color: #05b348;
+  }
 }

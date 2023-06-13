@@ -1,1 +1,39 @@
-<p>todo-list works!</p>
+<div class="todo_list-wrapper">
+  <div class="todo_list-search">
+    <input name="search" id="search" type="text" placeholder="Search ...">
+  </div>
+
+  <div class="todo_list-content">
+    <div class="todo_box-container" *ngFor="let todo of todos">
+      <div class="todo_box-action" [ngClass]="todo.isShowDetail ? 'is-show-detail': ''">
+        <div class="todo_box-name">
+          <input type="checkbox" id="todoName_{{todo.id}}" name="todoName_{{todo.id}}" [checked]="todo.isChecked">
+          <label for="todoName_{{todo.id}}">{{todo.name}}</label>
+        </div>
+        <div class="todo_box-handle">
+          <button class="box_handle-detail" type="button" (click)="todo.isShowDetail = !todo.isShowDetail">
+            Detail
+          </button>
+          <button class="box_handle-remove" type="button">
+            Remove
+          </button>
+        </div>
+      </div>
+      <div class="todo_box-detail" *ngIf="todo.isShowDetail">
+        <todo-detail [todo]="todo"></todo-detail>
+      </div>
+    </div>
+  </div>
+
+  <div class="todo_list-bulk-action">
+    <span class="bulk-label">Bulk Action:</span>
+    <div class="bulk-action">
+      <button class="bulk_action-done" type="button">
+        Done
+      </button>
+      <button class="bulk_action-remove" type="button">
+        Remove
+      </button>
+    </div>
+  </div>
+</div>

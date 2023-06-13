@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Subject} from "rxjs";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Todo} from "../../Domain/Interface/Todo.interface";
@@ -20,19 +20,30 @@ export class TodoDetailComponent implements OnInit {
     label: "Low", value: "low"
   }]
   public todoForm: FormGroup;
-  private todo: Todo = {
+  private _todo: Todo = {
     name: "",
     description: "",
     dueDate: new Date(),
     priority: "normal"
   }
 
+  @Input()
+  set todo(todo: Todo) {
+    this._todo = todo
+  }
+
+  get todo(): Todo {
+    return this._todo
+  }
+
+  @Output() submit: EventEmitter<Todo> = new EventEmitter<Todo>();
+
   constructor() {
     this.todoForm = new FormGroup<any>({
-      name: new FormControl(this.todo.name, [Validators.required]),
-      description: new FormControl(this.todo.description, []),
-      dueDate: new FormControl(formatDate(this.todo.dueDate, 'yyyy-MM-dd', 'en'), []),
-      priority: new FormControl(this.todo.priority, [])
+      name: new FormControl(this._todo.name, [Validators.required]),
+      description: new FormControl(this._todo.description, []),
+      dueDate: new FormControl(formatDate(this._todo.dueDate, 'yyyy-MM-dd', 'en'), []),
+      priority: new FormControl(this._todo.priority, [])
     })
   }
 
