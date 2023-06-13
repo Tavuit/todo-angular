@@ -1,1 +1,23 @@
-<p>todo-detail works!</p>
+<div class="detail_wrapper">
+  <form [formGroup]="todoForm">
+    <div class="detail_task-name">
+      <input formControlName="name" name="name" id="name" type="text" placeholder="Add new task ...">
+    </div>
+    <div class="detail_task-description">
+      <label for="description">Description</label>
+      <textarea formControlName="description" name="description" id="description" cols="30" rows="10"></textarea>
+    </div>
+    <div class="detail_task-options">
+      <div class="task_option-due-date">
+        <label for="dueDate">Due Date</label>
+        <input formControlName="dueDate" type="date" name="dueDate" id="dueDate">
+      </div>
+      <div class="task_option-priority">
+        <label for="priority">Priority</label>
+        <select id="priority" name="priority" formControlName="priority">
+          <option *ngFor="let priority of priorities" [ngValue]="priority.value">{{ priority.label }}</option>
+        </select>
+      </div>
+    </div>
+  </form>
+</div>

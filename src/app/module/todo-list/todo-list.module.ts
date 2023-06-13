@@ -6,6 +6,9 @@ import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [TodoListComponent],
+  exports: [
+    TodoListComponent
+  ],
   imports: [
     CommonModule,
     FormsModule

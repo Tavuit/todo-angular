@@ -1,12 +1,19 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {TodoDetailComponent} from "./todo-detail.component";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
-  declarations: [],
+  declarations: [TodoDetailComponent],
+  exports: [
+    TodoDetailComponent
+  ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
   ]
 })
-export class TodoDetailModule { }
+export class TodoDetailModule {
+}
