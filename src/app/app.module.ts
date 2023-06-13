@@ -12,7 +12,7 @@ import {TodoListModule} from "./module/todo-list/todo-list.module";
   imports: [
     BrowserModule,
     TodoTaskModule,
-    TodoListModule
+    TodoListModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

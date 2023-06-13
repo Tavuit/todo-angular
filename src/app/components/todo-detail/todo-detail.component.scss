@@ -121,13 +121,13 @@ input[type="date"]::-moz-clear {
   }
 
   .form-action {
-    margin-top: 32px;
+    margin: 16px 0px;
 
     border: none !important;
     border-radius: 4px;
     padding: 12px;
     color: #FFFFFF;
-    width: 10em;
+    //width: 10em;
 
     &:hover {
       cursor: pointer;
