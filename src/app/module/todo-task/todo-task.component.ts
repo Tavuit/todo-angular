@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {TodoBox} from "../../utils/enums/todo-box.enum";
 import {TodoService} from "../../services/todo.service";
 import {Todo} from '../../Domain/Interface/Todo.interface';
+import {TodoPriority} from "../../utils/enums/todo-priority.enum";
 
 @Component({
   selector: 'todo-task',
@@ -13,7 +14,7 @@ export class TodoTaskComponent implements OnInit {
     name: "",
     description: "",
     dueDate: new Date(),
-    priority: "normal"
+    priority: TodoPriority.NORMAL
   }
 
   constructor(

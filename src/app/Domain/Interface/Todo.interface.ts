@@ -3,7 +3,7 @@ export interface Todo {
   name: string,
   description: string,
   dueDate: Date,
-  priority: string,
+  priority: number,
   isShowDetail?: boolean
   isChecked?: boolean
 }

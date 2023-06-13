@@ -4,6 +4,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Todo} from "../../Domain/Interface/Todo.interface";
 import {formatDate} from '@angular/common';
 import {TodoBox} from "../../utils/enums/todo-box.enum";
+import {TodoPriority} from "../../utils/enums/todo-priority.enum";
 
 @Component({
   selector: 'todo-detail',
@@ -13,19 +14,19 @@ import {TodoBox} from "../../utils/enums/todo-box.enum";
 export class TodoDetailComponent implements OnInit {
   private $destroyed: Subject<void> = new Subject<void>();
   public minDate: Date = new Date();
-  public priorities: { label: string, value: string }[] = [{
-    label: "High", value: "high"
+  public priorities: { label: string, value: number }[] = [{
+    label: "High", value: TodoPriority.HIGH
   }, {
-    label: "Normal", value: "normal"
+    label: "Normal", value: TodoPriority.NORMAL
   }, {
-    label: "Low", value: "low"
+    label: "Low", value: TodoPriority.LOW
   }]
   public todoForm: FormGroup;
   private _todo: Todo = {
     name: "",
     description: "",
     dueDate: new Date(),
-    priority: "normal"
+    priority: TodoPriority.NORMAL
   }
   public TodoBox = TodoBox
   @Input('box-type') boxType: TodoBox = TodoBox.CREATE
@@ -45,11 +46,16 @@ export class TodoDetailComponent implements OnInit {
     private fbuilder: FormBuilder
   ) {
     this.todoForm = this.fbuilder.group({
-      id: new FormControl(""),
-      name: new FormControl("", [Validators.required]),
-      description: new FormControl("", []),
-      dueDate: new FormControl("", []),
-      priority: new FormControl("", [])
+      id: new FormControl(null),
+      name: new FormControl(null, [Validators.required]),
+      description: new FormControl(null, []),
+      dueDate: new FormControl(null, []),
+      priority: new FormControl(null, [])
+    })
+    this.todoForm.controls['dueDate'].valueChanges.subscribe((value)=>{
+      if (!value) {
+        this.todoForm.controls['dueDate'].patchValue(formatDate(this._todo.dueDate, 'yyyy-MM-dd', 'en'))
+      }
     })
   }
 
@@ -84,7 +90,7 @@ export class TodoDetailComponent implements OnInit {
     this.todoChange.emit(this.todoForm.getRawValue())
 
     if (this.boxType === TodoBox.CREATE) {
-      this.todoForm.reset({dueDate: formatDate(this._todo.dueDate, 'yyyy-MM-dd', 'en'), priority: 'normal'})
+      this.todoForm.reset({dueDate: formatDate(this._todo.dueDate, 'yyyy-MM-dd', 'en'), priority: TodoPriority.NORMAL})
     }
   }
 }

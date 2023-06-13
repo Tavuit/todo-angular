@@ -12,7 +12,7 @@ import {Todo} from "../../Domain/Interface/Todo.interface";
 import {TodoDetailComponent} from "../../components/todo-detail/todo-detail.component";
 import {TodoBox} from "../../utils/enums/todo-box.enum";
 import {TodoService} from "../../services/todo.service";
-import {Subject, takeUntil, tap} from "rxjs";
+import {debounceTime, of, Subject, switchMap, takeUntil, tap} from "rxjs";
 
 @Component({
   selector: 'todo-list',
@@ -24,6 +24,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
   private $destroy: Subject<void> = new Subject<void>()
   public todos: Todo[] = []
   public TodoBox = TodoBox
+  public todoSearch: Subject<string> = new Subject<string>()
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -34,6 +35,13 @@ export class TodoListComponent implements OnInit, OnDestroy {
         tap((result) => {
           this.todos = result
         }),
+        takeUntil(this.$destroy)
+      )
+      .subscribe()
+    this.todoSearch
+      .pipe(
+        debounceTime(300),
+        switchMap(async (keyword) => this.todoService.filterTodo(keyword)),
         takeUntil(this.$destroy)
       )
       .subscribe()

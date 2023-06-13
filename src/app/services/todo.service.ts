@@ -6,10 +6,11 @@ import {v4 as uuid} from 'uuid';
 @Injectable({
   providedIn: 'root'
 })
-export class TodoService{
+export class TodoService {
   private KEY: string = '@Storage::todo'
   private _todos: Todo[] = []
   private _todoSubject: Subject<Todo[]>;
+  private currentSearch: string;
 
   constructor() {
     this._todoSubject = new Subject<Todo[]>()
@@ -36,6 +37,7 @@ export class TodoService{
     todo.id = id
     this._todos.push(todo)
     this.reduceTodoByDueDate()
+    this.filterTodo(this.currentSearch)
   }
 
   public updateTodo(todo: Todo): void {
@@ -53,8 +55,21 @@ export class TodoService{
     this.reduceTodoByDueDate()
   }
 
+  public filterTodo(keyword: string): void {
+    if (!keyword.length) {
+      this._todoSubject.next(this._todos)
+    }
+    this.currentSearch = keyword
+    let todos = [...this._todos].filter(item => item.name.search(keyword) !== -1)
+      .sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime())
+      .sort((a, b) => a.priority > b.priority ? 1 : -1)
+    this._todoSubject.next(todos)
+  }
+
   private reduceTodoByDueDate(): void {
-    this._todos = [...this._todos].sort((a, b) => new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime())
+    this._todos = [...this._todos]
+      .sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime())
+      .sort((a, b) => a.priority > b.priority ? 1 : -1)
     this.setStorage()
     this._todoSubject.next(this._todos)
   }

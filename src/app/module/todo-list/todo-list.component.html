@@ -1,6 +1,7 @@
 <div class="todo_list-wrapper">
   <div class="todo_list-search">
-    <input name="search" id="search" type="text" placeholder="Search ...">
+    <input #search name="search" id="search" type="text" placeholder="Search ..."
+           (keyup)="todoSearch.next(search.value)">
   </div>
 
   <div class="todo_list-content">
