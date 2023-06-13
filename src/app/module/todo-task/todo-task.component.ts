@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {TodoBox} from "../../utils/enums/todo-box.enum";
+import {TodoService} from "../../services/todo.service";
+import {Todo} from '../../Domain/Interface/Todo.interface';
 
 @Component({
   selector: 'todo-task',
@@ -7,10 +9,23 @@ import {TodoBox} from "../../utils/enums/todo-box.enum";
   styleUrls: ['./todo-task.component.scss']
 })
 export class TodoTaskComponent implements OnInit {
-  constructor() {
+  public todo: Todo = {
+    name: "",
+    description: "",
+    dueDate: new Date(),
+    priority: "normal"
+  }
+
+  constructor(
+    private todoService: TodoService
+  ) {
   }
 
   ngOnInit(): void {
+  }
+
+  onSubmit(event: Todo): void {
+    this.todoService.createTodo(event)
   }
 
 }

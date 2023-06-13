@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="todo_box-detail" *ngIf="todo.isShowDetail">
-        <todo-detail [todo]="todo" [box-type]="TodoBox.UPDATE"></todo-detail>
+        <todo-detail [todo]="todo" [box-type]="TodoBox.UPDATE" (todoChange)="onChangeTodo($event)"></todo-detail>
       </div>
     </div>
   </div>

@@ -45,6 +45,7 @@ export class TodoDetailComponent implements OnInit {
     private fbuilder: FormBuilder
   ) {
     this.todoForm = this.fbuilder.group({
+      id: new FormControl(""),
       name: new FormControl("", [Validators.required]),
       description: new FormControl("", []),
       dueDate: new FormControl("", []),
@@ -57,6 +58,7 @@ export class TodoDetailComponent implements OnInit {
   }
 
   updateFormValue(): void {
+    this.todoForm.controls['id'].patchValue(this._todo.id)
     this.todoForm.controls['name'].patchValue(this._todo.name)
     this.todoForm.controls['description'].patchValue(this._todo.description)
     this.todoForm.controls['dueDate'].patchValue(formatDate(this._todo.dueDate, 'yyyy-MM-dd', 'en'))
@@ -76,6 +78,9 @@ export class TodoDetailComponent implements OnInit {
   }
 
   submit(): void {
+    if (this.todoForm.invalid) {
+      return
+    }
     this.todoChange.emit(this.todoForm.getRawValue())
   }
 }
