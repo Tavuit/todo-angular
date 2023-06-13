@@ -25,6 +25,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
   public todos: Todo[] = []
   public TodoBox = TodoBox
   public todoSearch: Subject<string> = new Subject<string>()
+  public onSearch: boolean = false
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -40,6 +41,9 @@ export class TodoListComponent implements OnInit, OnDestroy {
       .subscribe()
     this.todoSearch
       .pipe(
+        tap((keyword) => {
+          this.onSearch = !!keyword
+        }),
         debounceTime(300),
         switchMap(async (keyword) => this.todoService.filterTodo(keyword)),
         takeUntil(this.$destroy)

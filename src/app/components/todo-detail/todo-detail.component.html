@@ -23,8 +23,6 @@
     </div>
     <button class="form-action"
             type="button"
-            [ngClass]="todoForm.invalid ? 'btn-disable': ''"
-            [disabled]="todoForm.invalid"
             (click)="submit()">
       {{boxType === TodoBox.CREATE ? 'ADD' : 'UPDATE'}}
     </button>

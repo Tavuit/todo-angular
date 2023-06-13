@@ -27,6 +27,7 @@
         <todo-detail [todo]="todo" [box-type]="TodoBox.UPDATE" (todoChange)="onChangeTodo($event)"></todo-detail>
       </div>
     </div>
+    <span *ngIf="todos.length == 0">{{onSearch ? 'No item matches' : 'Todos is empty!'}}</span>
   </div>
 
   <div class="todo_list-bulk-action" *ngIf="canShowRemoveAll()">

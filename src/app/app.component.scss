@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-
+  gap: 24px;
 
   .task_container {
     flex: 1;
@@ -12,6 +12,9 @@
     align-items: center;
 
     padding: 24px 24px 0px 24px;
+
+    border: 1px solid #cdcdcd;
+    border-radius: 16px;
 
     .task_container-label {
       font-size: 24px;

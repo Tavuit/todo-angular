@@ -52,7 +52,7 @@ export class TodoDetailComponent implements OnInit {
       dueDate: new FormControl(null, []),
       priority: new FormControl(null, [])
     })
-    this.todoForm.controls['dueDate'].valueChanges.subscribe((value)=>{
+    this.todoForm.controls['dueDate'].valueChanges.subscribe((value) => {
       if (!value) {
         this.todoForm.controls['dueDate'].patchValue(formatDate(this._todo.dueDate, 'yyyy-MM-dd', 'en'))
       }
@@ -85,6 +85,9 @@ export class TodoDetailComponent implements OnInit {
 
   submit(): void {
     if (this.todoForm.invalid) {
+      for (let item in this.todoForm.controls) {
+        this.todoForm.controls[item].markAsDirty()
+      }
       return
     }
     this.todoChange.emit(this.todoForm.getRawValue())
